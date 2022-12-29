@@ -34,11 +34,11 @@ In the scheduler folder, there are three different implementations for three dif
 ## Speedup Graph and Analysis
 #### Pipeline Implementation
 As per the graph below, we can see that the general speed-up trend appears to decrease as we increase the number of threads on the local machine. I think this trend may be due to the fact that since we are spawning numThreads number of goroutines as workers, who are also spawning numThreads number of sub-goroutines, as the number of threads increases, the amount of overhead also increases drastically. The randomness that’s apparent on the Linux Cluster may also be due to having too many goroutines to manage and more randomness in the thread management of the cluster.<br>
-![Image](https://github.com/mpcs52060-aut22/project-2-HanzeHu98/blob/main/proj2/benchmark/speedup-bsp.png)
+![Image](https://github.com/mpcs52060-aut22/project-2-HanzeHu98/blob/main/proj2/benchmark/speedup-pipeline.png)
 
 #### Bulk Synchronous Parallelization Implementation
 The graphs below, one ran on the linux cluster and the other on my local machine (m2 macbook air), shows that for all input image sizes, the bsp scheduling scheme is effective in reducing the runtime of overall processing, and can boost the performance of large datasets by up to 2 - 3 times. The dip in speedup for 8 threads on the linux cluster is likely an outlier, as it only appeared for small and mixture input sizes, and the trend did not show up on my local machine. While on the local machine, since it only had 8 cores, speedup was not significantly increased after 8 cores, and even slowed down slightly due to the increased overhead.<br>
-![image](https://github.com/mpcs52060-aut22/project-2-HanzeHu98/blob/main/proj2/benchmark/speedup-pipeline.png)
+![image](https://github.com/mpcs52060-aut22/project-2-HanzeHu98/blob/main/proj2/benchmark/speedup-bsp.png)
 
 ## Analysis
 #### Bottlenecks and HotSpot
