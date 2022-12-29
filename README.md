@@ -17,7 +17,7 @@ Where the applicable effects are:
 
 Images should be placed inside the small, mixture or large subdirectories based on their sizes/resolution. You could specify which directory to read from when running the program. <br>
 To run the program, use the following command:<br>
-`go run proj2/editor small bsp 2`<br>
+```go run proj2/editor small bsp 2```
 - small can be replacd by **small**, **mixture** or **large**, based on the data folder you wish to read from
 - bsp can be replaced by **bsp**, **pipeline** or **sequential**, based on the parallization technique you wish to use
 - 2 can be replaced by any number and is used to indicate the number of threads to use
@@ -33,18 +33,18 @@ In the scheduler folder, there are three different implementations for three dif
 
 ## Speedup Graph and Analysis
 #### Pipeline Implementation
-As per the graph below, we can see that the general speed-up trend appears to decrease as we increase the number of threads on the local machine. I think this trend may be due to the fact that since we are spawning numThreads number of goroutines as workers, who are also spawning numThreads number of sub-goroutines, as the number of threads increases, the amount of overhead also increases drastically. The randomness that’s apparent on the Linux Cluster may also be due to having too many goroutines to manage and more randomness in the thread management of the cluster.
+As per the graph below, we can see that the general speed-up trend appears to decrease as we increase the number of threads on the local machine. I think this trend may be due to the fact that since we are spawning numThreads number of goroutines as workers, who are also spawning numThreads number of sub-goroutines, as the number of threads increases, the amount of overhead also increases drastically. The randomness that’s apparent on the Linux Cluster may also be due to having too many goroutines to manage and more randomness in the thread management of the cluster.<br>
 ![Image](https://github.com/mpcs52060-aut22/project-2-HanzeHu98/blob/main/proj2/benchmark/speedup-bsp.png)
 
 #### Bulk Synchronous Parallelization Implementation
-The graphs below, one ran on the linux cluster and the other on my local machine (m2 macbook air), shows that for all input image sizes, the bsp scheduling scheme is effective in reducing the runtime of overall processing, and can boost the performance of large datasets by up to 2 - 3 times. The dip in speedup for 8 threads on the linux cluster is likely an outlier, as it only appeared for small and mixture input sizes, and the trend did not show up on my local machine. While on the local machine, since it only had 8 cores, speedup was not significantly increased after 8 cores, and even slowed down slightly due to the increased overhead.
+The graphs below, one ran on the linux cluster and the other on my local machine (m2 macbook air), shows that for all input image sizes, the bsp scheduling scheme is effective in reducing the runtime of overall processing, and can boost the performance of large datasets by up to 2 - 3 times. The dip in speedup for 8 threads on the linux cluster is likely an outlier, as it only appeared for small and mixture input sizes, and the trend did not show up on my local machine. While on the local machine, since it only had 8 cores, speedup was not significantly increased after 8 cores, and even slowed down slightly due to the increased overhead.<br>
 ![image](https://github.com/mpcs52060-aut22/project-2-HanzeHu98/blob/main/proj2/benchmark/speedup-pipeline.png)
 
 ## Analysis
 #### Bottlenecks and HotSpot
 The hotspots in my sequential program mainly comes from applying the convolution filters to individual image pixels, due to the vast number of pixels in the input images (especially large images), the convolution and image processing step is expected to draw the most amount of computation resources. The bottleneck of my sequential program would come from reading and writing files. Since sequential implementation meant that no more than 1 image could be processed
 
-####Performance Comparison
+#### Performance Comparison
 In general, the pipeline implementation performed better than the bsp implementation, however, as we increase the number of threads, the speedup improves with the bsp implementation whereas the speedup decreases with the pipeline implementation, to the point where at 12 cores, bsp is performing better than pipeline (or at least at the same level).
 
 #### Potential Improvements
